@@ -13,11 +13,8 @@ async function createRecord(req, res) {
 
 async function userLogin(req, res) {
   try {
-    const { body } = req;
-    console.log("Logging in user", body);
-   
+    const { body } = req;   
    const userRecord = await userServices.login(body);
-   
     return res.status(200).json(userRecord);
   } catch (error) {
     console.error("Error logging in user:", error);

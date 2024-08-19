@@ -13,7 +13,7 @@ const createUser = async (obj) => {
 
 const findUser = async (body) => {
   try {
-   const user = await User.findOne(body);
+   const user = await User.findOne({email: body.email});
     return user;
   } catch (error) {
     console.error("Error getting user:", error.message);

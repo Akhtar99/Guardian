@@ -39,4 +39,4 @@ userRouter.delete(
 );
 // userRouter.delete("/delete-all", verifyToken, userController.deleteAllUser);
 
-export default { userRouter };
+export default  userRouter ;

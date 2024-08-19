@@ -6,14 +6,14 @@ const SECRET_KEY = "12giyje958";
 // import { SECRET_KEY } = process.env;
 
 async function createRecord(body) {
-  const isExist = await userRepo.findUser(body);
-  if (isExist) {
-    return {
-      statusCode: 409,
-      message: "conflict",
-      success: false,
-    };
-  }
+  // const isExist = await userRepo.findUser(body);
+  // if (isExist) {
+  //   return {
+  //     statusCode: 409,
+  //     message: "conflict",
+  //     success: false,
+  //   };
+  // }
 
   body.password = await bcrypt.hash(body.password, 10);
   body.role = "user";
@@ -31,17 +31,19 @@ async function login(body) {
     return {
       message: "record not found",
       statusCode: 404,
+      success : false,
     };
   }
   body.id = user.id;
   body.role = user.role;
-  const camparePassword = await bcrypt.compare(body.password, user.password);
+  const camparePassword = bcrypt.compare(body.password, user.password);
   if (camparePassword) {
     const tokenData = await jwt.sign(body, SECRET_KEY);
     return {
       statusCode: 201,
       user,
       token: tokenData,
+      success : true,
     };
   }
   return {
@@ -86,7 +88,6 @@ async function getAllUsers(body) {
 }
 
 async function updateRecord(body, user, userId) {
-  console.log("user is ", user, " user id ", userId);
   if (!(user && (user.id === userId || (user.role && user.role === "admin")))) {
     return {
       success: false,
